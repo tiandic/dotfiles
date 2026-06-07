@@ -1,0 +1,83 @@
+{
+    "layer": "top",    // 显示在窗口之上,如果把 "top" 改为" bottom" 则是显示在窗口之下
+    "height": 28,      // 整个面板的高度
+    "modules-left": [
+        "niri/workspaces"
+    ],
+
+    "modules-center": [
+        "clock"        // 时间
+    ],
+
+    "modules-right": [
+        "bluetooth",
+        "network",
+        "battery",
+        "pulseaudio",
+        "tray",
+        "cpu",        // 显示 CPU 使用率
+        "memory"      // 显示内存使用情况
+    ],
+
+    "cpu": {
+        "format": "{usage}%",              // 显示的格式
+        "interval": 1,                     // 刷新的时间间隔,单位为秒 (这里的配置即每1秒重新获取cpu占用率)
+        "on-click": "kitty -e btop"        // 鼠标左键单击该模块后触发的命令
+    },
+
+    "memory": {
+        "format": "{percentage}%",        // 显示的格式
+        "interval": 1                     // 每1秒重新获取内存占用率
+    },
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M:%S}",    // 显示为 "2026-05-09 19:30:00" 的格式
+        "interval": 1                        // 每1秒重新获取时间
+    },
+    "tray": {
+        "spacing": 6,
+        "icon-size": 20
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-full": "{icon} {capacity}%",
+        "format-charging": "󰃨 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {time}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "  {essid} ({signalStrength}%)",
+        "format-ethernet": "󰊗  {ipaddr}/{cidr}",
+        "tooltip-format": "󰊗  {ifname} via {gwaddr}",
+        "format-linked": "󰊗 {ifname} (No IP)",
+        "format-disconnected": "⚠ Disconnected",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon} {volume}% {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": "󰅶 {icon} {format_source}",
+        "format-muted": "󰅶 {format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "󰂑",
+            "headset": "󰂑",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    }
+}

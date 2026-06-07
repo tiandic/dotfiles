@@ -1,0 +1,57 @@
+* {
+    font-family: "JetBrains Mono", monospace;  /* 使用等宽字体,可以避免文本中的由'1'变'2'时,宽度变化导致的文本移动 */
+
+    border-radius: 26px;       /* 圆角 */
+    transition: none;          /* 背景不透明 */
+    color: #f8f8f2;            /* 白色文本 */
+    background: #282a36;       /* 黑色背景 */
+}
+
+#bluetooth, #network, #battery, #pulseaudio {
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 0 4px;
+}
+
+#tray {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+#clock {
+    padding-left: 16px;        /* 文本左边留空 16px */
+    padding-right: 16px;       /* 文本右边留空 16px */
+    border-radius: 26px;       /* 圆角 */
+    transition: none;          /* 背景不透明 */
+    color: #f8f8f2;            /* 白色文本 */
+    background: #282a36;       /* 黑色背景 */
+}
+
+#cpu {
+    min-width: 30px;        /* 指定宽度,避免由'9'变到'10'时宽度变化导致整个模块的宽度变化 */
+    padding-left: 16px;     /* 文本左边留空 16px */
+    padding-right: 16px;    /* 文本右边留空 16px */
+    border-radius: 26px;    /* 圆角 */
+    transition: none;       /* 背景不透明 */
+    color: #4d4d4d;         /* 灰色文本 */   
+    background: #f1fa8c;    /* 黄色背景 */
+}
+
+#memory {
+    min-width: 30px;        /* 指定宽度,避免由'9'变到'10'时宽度变化导致整个模块的宽度变化 */
+    padding-left: 16px;     /* 文本左边留空 16px */
+    padding-right: 16px;    /* 文本右边留空 16px */
+    border-radius: 26px;    /* 圆角 */
+    transition: none;       /* 背景不透明 */
+    color: #4d4d4d;         /* 灰色文本 */
+    background: #ff6e67;    /* 红色背景 */
+}
+
+#battery.warning {
+  border-color: #facc15;
+  color: #facc15;
+}
+
+#workspaces button.active {
+    border: 1px solid white;
+}
