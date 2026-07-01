@@ -1,6 +1,6 @@
 # ~/.zshrc file for zsh interactive shells.
 # see /usr/share/doc/zsh/examples/zshrc for examples
-export ZSH="$HOME/.oh-my-zsh"
+export MYZSH_PATH="/home/a/dotfiles/zsh/.my-zsh"
 
 setopt autocd              # change directory just by typing its name
 #setopt correct            # auto correct mistakes
@@ -11,26 +11,13 @@ setopt notify              # report the status of background jobs immediately
 setopt numericglobsort     # sort filenames numerically when it makes sense
 setopt promptsubst         # enable command substitution in prompt
 
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 
 # hide EOL sign ('%')
 PROMPT_EOL_MARK=""
-
-# configure key keybindings
-bindkey -e                                        # emacs key bindings
-bindkey ' ' magic-space                           # do history expansion on space
-bindkey '^U' backward-kill-line                   # ctrl + U
-bindkey '^[[3;5~' kill-word                       # ctrl + Supr
-bindkey '^[[3~' delete-char                       # delete
-bindkey '^[[1;5C' forward-word                    # ctrl + ->
-bindkey '^[[1;5D' backward-word                   # ctrl + <-
-bindkey '^[[5~' beginning-of-buffer-or-history    # page up
-bindkey '^[[6~' end-of-buffer-or-history          # page down
-bindkey '^[[H' beginning-of-line                  # home
-bindkey '^[[F' end-of-line                        # end
-bindkey '^[[Z' undo                               # shift + tab undo last action
-
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
 # enable completion features
 autoload -Uz compinit
@@ -113,17 +100,6 @@ configure_prompt() {
     esac
 }
 
-ZVM_INIT_MODE=sourcing
-
-bindkey -M emacs '\es' sudo-command-line
-bindkey -M vicmd '\es' sudo-command-line
-bindkey -M viins '\es' sudo-command-line
-plugins=(zsh-vi-mode you-should-use)
-
-plugins+=(git web-search jsontools z copypath copyfile sudo zsh-history-substring-search colored-man-pages)
-plugins+=(docker docker-compose)
-source $ZSH/oh-my-zsh.sh
-
 # The following block is surrounded by two delimiters.
 # These delimiters must not be modified. Thanks.
 # START KALI CONFIG VARIABLES
@@ -136,69 +112,10 @@ if [ "$color_prompt" = yes ]; then
     VIRTUAL_ENV_DISABLE_PROMPT=1
 
     configure_prompt
-
-    # enable syntax-highlighting
-    if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-        . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-        ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-        ZSH_HIGHLIGHT_STYLES[default]=none
-        ZSH_HIGHLIGHT_STYLES[unknown-token]=underline
-        ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=cyan,bold
-        ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=green,underline
-        ZSH_HIGHLIGHT_STYLES[global-alias]=fg=green,bold
-        ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
-        ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=blue,bold
-        ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=green,underline
-        ZSH_HIGHLIGHT_STYLES[path]=fg=white,bold
-        ZSH_HIGHLIGHT_STYLES[path_pathseparator]=
-        ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=
-        ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue,bold
-        ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue,bold
-        ZSH_HIGHLIGHT_STYLES[command-substitution]=none
-        ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]=fg=magenta,bold
-        ZSH_HIGHLIGHT_STYLES[process-substitution]=none
-        ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]=fg=magenta,bold
-        ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=green
-        ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=green
-        ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
-        ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=blue,bold
-        ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=yellow
-        ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
-        ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=yellow
-        ZSH_HIGHLIGHT_STYLES[rc-quote]=fg=magenta
-        ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=magenta,bold
-        ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=magenta,bold
-        ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=magenta,bold
-        ZSH_HIGHLIGHT_STYLES[assign]=none
-        ZSH_HIGHLIGHT_STYLES[redirection]=fg=blue,bold
-        ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
-        ZSH_HIGHLIGHT_STYLES[named-fd]=none
-        ZSH_HIGHLIGHT_STYLES[numeric-fd]=none
-        ZSH_HIGHLIGHT_STYLES[arg0]=fg=cyan
-        ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
-        ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=blue,bold
-        ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=green,bold
-        ZSH_HIGHLIGHT_STYLES[bracket-level-3]=fg=magenta,bold
-        ZSH_HIGHLIGHT_STYLES[bracket-level-4]=fg=yellow,bold
-        ZSH_HIGHLIGHT_STYLES[bracket-level-5]=fg=cyan,bold
-        ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
-    fi
 else
     PROMPT='${debian_chroot:+($debian_chroot)}%n@%m:%~%# '
 fi
 unset color_prompt force_color_prompt
-
-toggle_oneline_prompt(){
-    if [ "$PROMPT_ALTERNATIVE" = oneline ]; then
-        PROMPT_ALTERNATIVE=twoline
-    else
-        PROMPT_ALTERNATIVE=oneline
-    fi
-    configure_prompt
-    zle reset-prompt
-}
-zle -N toggle_oneline_prompt
-bindkey ^P toggle_oneline_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -223,87 +140,7 @@ precmd() {
     fi
 }
 
-# enable color support of ls, less and man, and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    export LS_COLORS="$LS_COLORS:ow=30;44:" # fix ls color for folders with 777 permissions
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+ZVM_INIT_MODE=sourcing
 
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-    alias diff='diff --color=auto'
-    alias ip='ip --color=auto'
-
-    export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
-    export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
-    export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
-    export LESS_TERMCAP_so=$'\E[01;33m'    # begin reverse video
-    export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
-    export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
-    export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
-
-    # Take advantage of $LS_COLORS for completion as well
-    zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-    zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-fi
-
-# some more ls aliases
-alias ll='ls -l'
-alias la='ls -A'
-alias l='ls -CF'
-
-# enable auto-suggestions based on the history
-if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-    # change suggestion color
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
-fi
-
-# enable command-not-found if installed
-if [ -f /etc/zsh_command_not_found ]; then
-    . /etc/zsh_command_not_found
-fi
-
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-zvm_bindkey viins '^R' fzf-history-widget
-
-# export http_proxy=http://127.0.0.1:7890
-# export https_proxy=http://127.0.0.1:7890
-# export all_proxy=http://127.0.0.1:7890
-
-export XMODIFIERS="@im=fcitx"
-export QT_IM_MODULE="fcitx"
-export GTK_IM_MODULE="fcitx"
-
-export PATH=$PATH:/sbin:/usr/sbin:$HOME/software/platform-tools:$HOME/bin:$HOME/.local/bin
-export TRANSLATE_SHELL_ENGINE=bing
-# alias i="sudo apt install"
-# alias u="sudo apt update"
-# alias ud="sudo apt update && sudo apt dist-upgrade -y"
-# alias pu="sudo -E $HOME/bin/apt-proxy update"
-# alias pi="sudo -E $HOME/bin/apt-proxy install"
-# alias pud="sudo -E $HOME/bin/apt-proxy update && sudo $HOME/bin/apt-proxy dist-upgrade"
-# alias di="sudo dpkg -i"
-alias md="mkdir"
-alias py="python3"
-alias trm="trash-put"
-alias rcp="rsync -avhP --info=progress2 --no-inc-recursive"
-#alias fd="fdfind"
-alias ipy="ipython3"
-
-alias ssh="kitty +kitten ssh"
-alias icat="kitty +kitten icat"
-
-alias gac="git add . && git commit -m"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH=$PATH:$(npm prefix -g)/bin
+source $MYZSH_PATH/init.zsh
