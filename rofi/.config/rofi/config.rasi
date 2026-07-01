@@ -1,0 +1,9 @@
+@theme "/home/a/.config/rofi/themes/rounded-blue-dark.rasi"
+
+configuration {
+    matching: "fuzzy";
+    sorting-method: "fzf";
+    sort: true;
+    levenshtein-sort: false;
+    history: true;
+}
