@@ -42,9 +42,9 @@ local function toggle_comment(cmd)
   end
 end
 
-map({ "n", "i" }, "<c-_>", function()
+map({ "n", "i" }, "<c-/>", function()
   toggle_comment("gcc")
-end, { desc = "comment toggle", remap = true })
+end, { desc = "comment toggle", noremap = true })
 -- map("i", "<C-_>", toggle_comment("<Esc>gcc^i"), { desc = "comment toggle", remap = true })
 -- map("v", "<C-_>", toggle_comment("gc"), { desc = "comment toggle", remap = true })
 
@@ -62,3 +62,30 @@ map("n", "d]", '"_di]', { noremap = true })
 map("v", "d", '"+d', { noremap = true, silent = true })
 
 map("n", "x", '"_x', { noremap = true })
+
+-- 使用tab切换
+vim.keymap.set("i", "<Tab>", function()
+  local blink = require("blink.cmp")
+  if blink.is_menu_visible() then
+    blink.select_next()
+  elseif vim.snippet.active({ direction = 1 }) then
+    vim.snippet.jump(1)
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n", false)
+  end
+end, { silent = true, noremap = true })
+
+vim.keymap.set("i", "<S-Tab>", function()
+  local blink = require("blink.cmp")
+  if blink.is_menu_visible() then
+    blink.select_prev()
+  elseif vim.snippet.active({ direction = -1 }) then
+    vim.snippet.jump(-1)
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<S-Tab>", true, true, true), "n", false)
+  end
+end, { silent = true, noremap = true })
+
+vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "buffer goto next" })
+vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "buffer goto prev" })
+vim.keymap.set("n", "<leader>x", "<cmd>bd<cr>", { desc = "buffer close" })
