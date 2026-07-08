@@ -1,6 +1,6 @@
 # ~/.zshrc file for zsh interactive shells.
 # see /usr/share/doc/zsh/examples/zshrc for examples
-export MYZSH_PATH="/home/a/dotfiles/zsh/.my-zsh"
+export MYZSH_PATH="$HOME/dotfiles/zsh/.my-zsh"
 
 setopt autocd              # change directory just by typing its name
 #setopt correct            # auto correct mistakes
