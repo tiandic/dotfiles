@@ -3,7 +3,7 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
-if cat /etc/os-release | grep -i debian ; then
+if cat /etc/os-release | grep -q -i debian ; then
   alias i="sudo apt install"
   alias u="sudo apt update"
   alias ud="sudo apt update && sudo apt dist-upgrade -y"
@@ -11,7 +11,7 @@ if cat /etc/os-release | grep -i debian ; then
   alias pi="sudo -E $HOME/bin/apt-proxy install"
   alias pud="sudo -E $HOME/bin/apt-proxy update && sudo $HOME/bin/apt-proxy dist-upgrade"
   alias di="sudo dpkg -i"
-elif cat /etc/os-release | grep -i arch ; then
+elif cat /etc/os-release | grep -q -i arch ; then
   alias paS="sudo pacman -S"
   alias paSyu="sudo pacman -Syu"
 fi
