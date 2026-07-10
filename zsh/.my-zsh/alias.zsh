@@ -15,7 +15,7 @@ if cat /etc/os-release | grep -q -i debian ; then
   alias fd=fdfind
 elif cat /etc/os-release | grep -q -i arch ; then
   alias paS="sudo pacman -S"
-  alias paSyu="sudo pacman -Syu"
+  alias paSyu="sudo pacman -Syu --disable-download-timeout"
 fi
 
 alias md="mkdir"
