@@ -88,8 +88,9 @@ source $MYZSH_PATH/alias.zsh
 source $MYZSH_PATH/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # 异步加载, 让提示符加快出现
-zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/plugins/z/z.plugin.zsh
 zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/lib/clipboard.zsh
+zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/lib/directories.zsh
+zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/plugins/z/z.plugin.zsh
 zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/plugins/copypath/copypath.plugin.zsh
 zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/plugins/copyfile/copyfile.plugin.zsh
 zsh-defer source $MYZSH_PATH/plugins/ohmyzsh/plugins/sudo/sudo.plugin.zsh

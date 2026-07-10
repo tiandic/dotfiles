@@ -11,6 +11,8 @@ if cat /etc/os-release | grep -q -i debian ; then
   alias pi="sudo -E $HOME/bin/apt-proxy install"
   alias pud="sudo -E $HOME/bin/apt-proxy update && sudo $HOME/bin/apt-proxy dist-upgrade"
   alias di="sudo dpkg -i"
+
+  alias fd=fdfind
 elif cat /etc/os-release | grep -q -i arch ; then
   alias paS="sudo pacman -S"
   alias paSyu="sudo pacman -Syu"
@@ -20,7 +22,6 @@ alias md="mkdir"
 alias py="python3"
 alias trm="trash-put"
 alias rcp="rsync -avhP --info=progress2 --no-inc-recursive"
-#alias fd="fdfind"
 alias ipy="ipython3"
 
 alias ssh="kitty +kitten ssh"
