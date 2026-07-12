@@ -142,5 +142,6 @@ precmd() {
 
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 ZVM_INIT_MODE=sourcing
+ZVM_VI_EDITOR=nvim
 
 source $MYZSH_PATH/init.zsh
