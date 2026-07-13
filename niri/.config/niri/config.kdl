@@ -364,7 +364,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     // Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn "rofi" "-show" "drun" "-show-icons"; }
-    Mod+0 hotkey-overlay-title="Run an Application: rofi" { spawn-sh "$HOME/bin/rofi_luncher.sh"; }
+    Mod+0 hotkey-overlay-title="Run an Application: rofi" { spawn-sh "$HOME/.config/niri/scripts/rofi_luncher.sh"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -666,3 +666,4 @@ spawn-at-startup "fcitx5" "-d"
 spawn-at-startup "clipse" "--listen"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "flclash"
+spawn-sh-at-startup " $HOME/.config/niri/scripts/niri_frist_maxsize.py"
