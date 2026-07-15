@@ -12,12 +12,17 @@ function load_fzf() {
   source <(fzf --zsh)
 }
 
-function load_nvm() {
-  if [ -d "$HOME/.nvm" ] ; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  fi
+if [ -d "$HOME/.nvm" ] ; then
+    function nvm(){
+        unfunction nvm
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+        nvm $@
+    }
+fi
+
+function load_npm() {
   command -v npm &>/dev/null && export PATH=$PATH:$(npm prefix -g)/bin
 }
 
@@ -63,22 +68,13 @@ function zvm_after_init() {
   zsh-defer load_fzf
 }
 
-_deferred_init_done=0
-_deferred_init() {
-  (( _deferred_init_done )) && return
-  _deferred_init_done=1
+# _deferred_init_done=0
+# _deferred_init() {
+  # (( _deferred_init_done )) && return
+  # _deferred_init_done=1
 
-  source $MYZSH_PATH/plugins/zsh-you-should-use/you-should-use.plugin.zsh
-  source $MYZSH_PATH/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
-  source $MYZSH_PATH/plugins/ohmyzsh/plugins/git/git.plugin.zsh
-  # source $MYZSH_PATH/plugins/ohmyzsh/plugins/web-search/web-search.plugin.zsh
-  # source $MYZSH_PATH/plugins/ohmyzsh/plugins/jsontools/jsontools.plugin.zsh
-  source $MYZSH_PATH/plugins/ohmyzsh/plugins/colored-man-pages/colored-man-pages.plugin.zsh
-  # source $MYZSH_PATH/plugins/ohmyzsh/plugins/docker/docker.plugin.zsh
-  # source $MYZSH_PATH/plugins/ohmyzsh/plugins/docker-compose/docker-compose.plugin.zsh
-
-  zsh-defer load_nvm
-}
+  # zsh-defer load_npm
+# }
 
 # 立即加载常用的插件
 source $MYZSH_PATH/plugins/zsh-defer/zsh-defer.plugin.zsh
@@ -99,6 +95,17 @@ zsh-defer load_dircolors
 zsh-defer load_zsh_syntax_highlighting
 zsh-defer load_zsh_autosuggestions
 
+source $MYZSH_PATH/plugins/zsh-you-should-use/you-should-use.plugin.zsh
+source $MYZSH_PATH/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh
+source $MYZSH_PATH/plugins/ohmyzsh/plugins/git/git.plugin.zsh
+# source $MYZSH_PATH/plugins/ohmyzsh/plugins/web-search/web-search.plugin.zsh
+# source $MYZSH_PATH/plugins/ohmyzsh/plugins/jsontools/jsontools.plugin.zsh
+source $MYZSH_PATH/plugins/ohmyzsh/plugins/colored-man-pages/colored-man-pages.plugin.zsh
+# source $MYZSH_PATH/plugins/ohmyzsh/plugins/docker/docker.plugin.zsh
+# source $MYZSH_PATH/plugins/ohmyzsh/plugins/docker-compose/docker-compose.plugin.zsh
+
+zsh-defer load_npm
+
 # 第一个命令之后再加载其他插件
-autoload -Uz add-zsh-hook
-add-zsh-hook preexec _deferred_init
+# autoload -Uz add-zsh-hook
+# add-zsh-hook preexec _deferred_init
