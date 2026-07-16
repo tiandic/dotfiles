@@ -28,8 +28,7 @@ class Niri_con:
 
 def get_workspace_windows(con:Niri_con,id,windows=None):
     if windows==None:
-        for k,v in con.cmd("Windows").items():
-            windows=v["Windows"]
+        windows=get_all_windows(con)
     return [ w for w in windows if w["workspace_id"]==id ]
 
 def get_focused_workspace(con:Niri_con):
@@ -45,6 +44,12 @@ def get_focused_workspace(con:Niri_con):
 def get_focused_workspace_id(con:Niri_con):
     workspace=get_focused_workspace(con)
     return workspace["id"]
+
+def get_focused_window_id(con:Niri_con):
+    windows=get_all_windows(con)
+    for w in windows:
+        if w["is_focused"]:
+            return w["id"]
 
 def set_window_maxsize(con:Niri_con,id,workspace_id):
     global frist_window_ids
@@ -65,8 +70,12 @@ def set_frist_window_half(con:Niri_con,workspace_id):
     save_current_workspace_id(con)
     frist_window_id=frist_window_ids[str(workspace_id)]
     del frist_window_ids[str(workspace_id)]
+    new_window_id=get_focused_window_id(con)
+
     con.cmd({"Action": {"FocusWindow": {"id": frist_window_id}}})
     con.cmd({"Action": {"SetColumnWidth": {"change": {"SetProportion": 50.0}}}})
+
+    con.cmd({"Action": {"FocusWindow": {"id": new_window_id}}})
     recover_current_workspace(con)
 
 def save_current_workspace_id(con):
@@ -79,11 +88,15 @@ def recover_current_workspace(con:Niri_con):
         con.cmd({"Action": {"FocusWorkspace": {"reference": {"Id": current_workspace_id}}}})
         current_workspace_id=-1
 
+def get_all_windows(con:Niri_con):
+    windows=con.cmd("Windows")
+    for k,v in windows.items():
+        windows=v["Windows"]
+    return windows
+
 def update_all_windows():
     global all_windows
-    all_windows=c2.cmd("Windows")
-    for k,v in all_windows.items():
-        all_windows=v["Windows"]
+    all_windows=get_all_windows(c2)
 
 def get_workspace_id(id):
     for w in all_windows:
