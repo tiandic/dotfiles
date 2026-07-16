@@ -10,26 +10,30 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 map({ "n", "v" }, "l", "j")
 map({ "n", "v" }, "j", "l")
 
-vim.keymap.set("n", "<C-w>h", "<C-w>k", opts)
-vim.keymap.set("n", "<C-w>l", "<C-w>j", opts)
-vim.keymap.set("n", "<C-w>j", "<C-w>h", opts)
-vim.keymap.set("n", "<C-w>k", "<C-w>l", opts)
+map({ "n", "i", "v", "t" }, "<C-w>h", "<C-w>k", opts)
+map({ "n", "i", "v", "t" }, "<C-w>l", "<C-w>j", opts)
+map({ "n", "i", "v", "t" }, "<C-w>j", "<C-w>h", opts)
+map({ "n", "i", "v", "t" }, "<C-w>k", "<C-w>l", opts)
+
+-- map({ "n", "i", "v", "t" }, "<C-h>", "<C-k>", opts)
+-- map({ "n", "i", "v", "t" }, "<C-l>", "<C-j>", opts)
+-- map({ "n", "i", "v", "t" }, "<C-j>", "<C-h>", opts)
+-- map({ "n", "i", "v", "t" }, "<C-k>", "<C-l>", opts)
 
 -- 只让 y / p 使用系统剪贴板
-vim.keymap.set({ "n", "v" }, "y", '"+y')
-vim.keymap.set({ "n", "v" }, "p", '"+p')
-vim.keymap.set({ "n", "v" }, "P", '"+P')
-vim.keymap.set({ "n", "v" }, "d", '"_d')
+map({ "n", "v" }, "y", '"+y')
+map({ "n", "v" }, "p", '"+p')
+map({ "n", "v" }, "P", '"+P')
+map({ "n", "v" }, "d", '"_d')
 
-map({ "n", "i", "v" }, "<F2>", function()
-  if vim.bo.filetype == "NvimTree" then
-    -- 如果在文件浏览器中，调用 NvimTree 的重命名功能
-    require("nvim-tree.api").fs.rename()
-  else
-    require("nvchad.lsp.renamer")()
-  end
-end, { desc = "LSP rename" }) -- 重命名符号，等同于 NvChad 的快捷键 `<leader>ra`
+map({ "n", "i", "v" }, "<F2>", "<leader>cr", { remap = true, desc = "LSP rename" }) -- 重命名符号，等同于快捷键 `<leader>cr`
 
+-- 终端
+map({ "n", "i", "v", "t" }, "<A-i>", function()
+  Snacks.terminal.toggle()
+end)
+
+-- 保存与重做
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "file save" })
 map({ "n", "i", "v" }, "<C-z>", "<cmd> undo <cr>", { desc = "history undo" })
 
@@ -59,7 +63,7 @@ map("n", "d[", '"_di[', { noremap = true })
 map("n", "d]", '"_di]', { noremap = true })
 
 -- 剪切
-map("v", "d", '"+d', { noremap = true, silent = true })
+map("v", "d", '"+d', opts)
 
 map("n", "x", '"_x', { noremap = true })
 
@@ -86,6 +90,6 @@ vim.keymap.set("i", "<S-Tab>", function()
   end
 end, { silent = true, noremap = true })
 
-vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "buffer goto next" })
-vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "buffer goto prev" })
-vim.keymap.set("n", "<leader>x", "<cmd>bd<cr>", { desc = "buffer close" })
+map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "buffer goto next" })
+map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "buffer goto prev" })
+map("n", "<leader>x", "<cmd>bd<cr>", { desc = "buffer close" })
