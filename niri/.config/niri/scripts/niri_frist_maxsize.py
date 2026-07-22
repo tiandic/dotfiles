@@ -54,7 +54,7 @@ def get_focused_window_id(con:Niri_con):
 def set_window_maxsize(con:Niri_con,id,workspace_id):
     global frist_window_ids
     save_current_workspace_id(con)
-    old_frist_window_id=-1
+    old_frist_window_id=-1 # 判断是否已经被代码设置为最大化
     if str(workspace_id) in frist_window_ids:
         old_frist_window_id=frist_window_ids[str(workspace_id)]
     if old_frist_window_id == id:
@@ -67,7 +67,7 @@ def set_window_maxsize(con:Niri_con,id,workspace_id):
 def set_frist_window_half(con:Niri_con,workspace_id):
     if not str(workspace_id) in frist_window_ids:
         return
-    save_current_workspace_id(con) # 改变窗口大小需要先聚焦到目标窗口,这会改变聚焦的工作区,出现进入niri时,聚焦到其他工作区,而非需要的工作区,所以需要先记录当前工作区
+    save_current_workspace_id(con)
     frist_window_id=frist_window_ids[str(workspace_id)]
     del frist_window_ids[str(workspace_id)]
     new_window_id=get_focused_window_id(con) # 打开新窗口时,会聚焦到新窗口,但调整旧窗口大小需要聚焦到旧窗口,在这里获取新窗口id,然后在调整旧窗口大小后恢复聚焦
@@ -104,15 +104,15 @@ def get_workspace_id(id):
             return w["workspace_id"]
 
 
-c=Niri_con(os.environ["NIRI_SOCKET"])
-c2=Niri_con(os.environ["NIRI_SOCKET"])
-all_windows=[]
-frist_window_ids={}
-current_workspace_id=-1
+c=Niri_con(os.environ["NIRI_SOCKET"])    # 用于事件流
+c2=Niri_con(os.environ["NIRI_SOCKET"])   # 用于其他操作,一个套接字发出获取事件流的请求后就无法再进行其他操作
+all_windows=[]           # 用于获取关闭窗口的所在工作区 id, 关闭窗口事件只返回被关闭窗口的id,所以需要在关闭前记录下该窗口的其他属性
+frist_window_ids={} # 用于记录每个工作区只有一个窗口时,该窗口的id,当工作区不再只有一个窗口时,该键值会被删除
+current_workspace_id=-1             # 记录当前聚焦工作区的id, 改变窗口大小需要先聚焦到目标窗口,这会改变聚焦的工作区,会出现进入niri时,聚焦到其他工作区,而非需要的工作区的问题,所以需要先记录当前工作区
 
 def main():
     c.send_cmd("EventStream")
-    update_all_windows()    # all_windows 用于获取关闭窗口的所在工作区 id
+    update_all_windows()
 
     while True:
         for k,v in c.read_line().items():
