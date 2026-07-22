@@ -53,12 +53,14 @@ def get_focused_window_id(con:Niri_con):
 
 def set_window_maxsize(con:Niri_con,id,workspace_id):
     global frist_window_ids
-    save_current_workspace_id(con)
+
     old_frist_window_id=-1 # 判断是否已经被代码设置为最大化
     if str(workspace_id) in frist_window_ids:
         old_frist_window_id=frist_window_ids[str(workspace_id)]
     if old_frist_window_id == id:
         return
+
+    save_current_workspace_id(con)
     frist_window_ids[str(workspace_id)]=id
     con.cmd({"Action": {"FocusWindow": {"id": id}}})
     con.cmd({"Action": {"MaximizeColumn": {}}})
