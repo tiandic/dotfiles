@@ -51,13 +51,56 @@ def get_focused_window_id(con:Niri_con):
         if w["is_focused"]:
             return w["id"]
 
+def get_all_workspaces(con:Niri_con):
+    workspaces=con.cmd("Workspaces")
+    for k,v in workspaces.items():
+        return v["Workspaces"]
+
+def get_workspace(con:Niri_con,id):
+    workspaces=get_all_workspaces(con)
+    for workspace in workspaces:
+        if workspace["id"]==id:
+            return workspace
+
+def get_window_info(con:Niri_con,id):
+    windows=get_all_windows(con)
+    for w in windows:
+        if w["id"]==id:
+            return w
+
+def get_all_output(con:Niri_con):
+    outputs=con.cmd("Outputs")
+    for k,v in outputs.items():
+        return v["Outputs"]
+
+def get_output_info(con:Niri_con,output_name):
+    outputs=get_all_output(con)
+    return outputs[output_name]
+
+def is_MaximizeColumn(con:Niri_con,id):
+    w=get_window_info(con,id)
+    workspace_id=-1
+    window_width=-1
+    window_height=-1
+    
+    if w:
+        workspace_id=w["workspace_id"]
+        window_width=w["layout"]["tile_size"][0]
+        window_height=w["layout"]["tile_size"][1]
+
+    workspace=get_workspace(con,workspace_id)
+    output_name=workspace["output"]
+    output=get_output_info(con,output_name)
+
+    if (window_width+50>=output["logical"]["width"]) and (window_height+50>=output["logical"]["height"]):
+        return True
+    return False
+
 def set_window_maxsize(con:Niri_con,id,workspace_id):
     global frist_window_ids
 
-    old_frist_window_id=-1 # 判断是否已经被代码设置为最大化
-    if str(workspace_id) in frist_window_ids:
-        old_frist_window_id=frist_window_ids[str(workspace_id)]
-    if old_frist_window_id == id:
+    # 判断是否已经被代码设置为最大化
+    if is_MaximizeColumn(con,id):
         return
 
     save_current_workspace_id(con)
