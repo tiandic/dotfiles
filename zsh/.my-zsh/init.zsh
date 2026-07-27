@@ -79,7 +79,6 @@ function zvm_after_init() {
 # 立即加载常用的插件
 source $MYZSH_PATH/plugins/zsh-defer/zsh-defer.plugin.zsh
 source $MYZSH_PATH/export.zsh
-source $MYZSH_PATH/alias.zsh
 
 source $MYZSH_PATH/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
@@ -104,6 +103,7 @@ source $MYZSH_PATH/plugins/ohmyzsh/plugins/colored-man-pages/colored-man-pages.p
 # source $MYZSH_PATH/plugins/ohmyzsh/plugins/docker/docker.plugin.zsh
 # source $MYZSH_PATH/plugins/ohmyzsh/plugins/docker-compose/docker-compose.plugin.zsh
 
+source $MYZSH_PATH/alias.zsh
 zsh-defer load_npm
 
 # 第一个命令之后再加载其他插件
