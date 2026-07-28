@@ -92,8 +92,11 @@ end, { silent = true, noremap = true })
 
 map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "buffer goto next" })
 map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "buffer goto prev" })
-map("n", "<leader>x", "<cmd>bd<cr>", { desc = "buffer close" })
+map("n", "<C-x>", "<cmd>bd<cr>", { desc = "buffer close" })
 
 -- 光标后插入一个空格
 map("n", "<leader>a", "a<Space><Esc>h", { desc = "Insert a space after the cursor" })
 map("n", "<leader>\\", "a<Space><Esc>h", { desc = "Insert a space after the cursor" })
+
+-- Alt + e 打开文件管理器
+map("n", "<A-e>", "<leader>e", { remap = true })
