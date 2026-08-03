@@ -637,6 +637,8 @@ binds {
     Mod+F4 hotkey-overlay-title="Open the logout menu" { spawn "wlogout"; }
 
     Alt+C hotkey-overlay-title="Open the clipboard" { spawn "kitty" "-e" "clipse"; }
+
+    Mod+F5 hotkey-overlay-title="Toggle the touchpad on or off." {spawn-sh "$HOME/.config/niri/scripts/toggle-touchpad.py";}
 }
 
 window-rule {
@@ -667,4 +669,4 @@ spawn-at-startup "fcitx5" "-d"
 spawn-at-startup "clipse" "--listen"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "flclash"
-spawn-sh-at-startup " $HOME/.config/niri/scripts/niri_frist_maxsize.py"
+spawn-sh-at-startup "$HOME/.config/niri/scripts/niri_frist_maxsize.py"
