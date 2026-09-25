@@ -636,7 +636,7 @@ binds {
 
     Mod+F4 hotkey-overlay-title="Open the logout menu" { spawn "wlogout"; }
 
-    // Alt+C hotkey-overlay-title="Open the clipboard" { spawn "kitty" "-e" "clipse"; }
+    Alt+C hotkey-overlay-title="Open the clipboard" { spawn "kitty" "-e" "clipse"; }
     Mod+V hotkey-overlay-title="Open the clipboard" { spawn "kitty" "-e" "clipse"; }
 
     Mod+F5 hotkey-overlay-title="Toggle the touchpad on or off." {spawn-sh "$HOME/.config/niri/scripts/toggle-touchpad.py";}
