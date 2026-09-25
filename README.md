@@ -1,6 +1,9 @@
 # dotfiles
 这里是我的配置文件
 
+<img width="1920" height="1080" alt="Screenshot" src="https://github.com/user-attachments/assets/9e0c06b4-efc3-4cd9-bd4e-1cd69c9cd5a8" />
+
+
 该仓库为了更好地利用其他仓库的插件,所以将`ohmyzsh`等仓库作为了子模块,需要使用如下命令拉取:
 ```
 git clone --recursive https://github.com/tiandic/dotfiles.git
